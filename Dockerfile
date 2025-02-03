@@ -3,6 +3,27 @@
 # https://hub.docker.com/_/php
 FROM php:8.3-apache
 
+# Install necessary libraries
+RUN apt-get update -y && apt-get install -y \
+    git \ 
+    libssl-dev \
+    libonig-dev \
+    libzip-dev
+
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
+RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
+
+# Install PHP extensions
+RUN docker-php-ext-install \
+    mbstring \
+    zip
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN composer install
+
 # Configure PHP for Cloud Run.
 # Precompile PHP code with opcache.
 RUN docker-php-ext-install -j "$(nproc)" opcache
@@ -15,8 +36,8 @@ RUN set -ex; \
     echo "upload_max_filesize = 32M"; \
     echo "post_max_size = 32M"; \
     echo "; Configure Opcache for Containers"; \
-    echo "opcache.enable = On"; \
-    echo "opcache.validate_timestamps = Off"; \
+    echo "opcache.enable = Off"; \
+    echo "opcache.validate_timestamps = On"; \
     echo "; Configure Opcache Memory (Application-specific)"; \
     echo "opcache.memory_consumption = 32"; \
   } > "$PHP_INI_DIR/conf.d/cloud-run.ini"
@@ -24,6 +45,8 @@ RUN set -ex; \
 # Copy in custom code from the host machine.
 WORKDIR /var/www/html
 COPY . ./
+
+RUN a2enmod rewrite
 
 # Use the PORT environment variable in Apache configuration files.
 # https://cloud.google.com/run/docs/reference/container-contract#port
@@ -36,3 +59,5 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 COPY /infra/apache/apache-config.conf /etc/apache2/sites-available/000-default.conf
+
+EXPOSE ${PORT}
