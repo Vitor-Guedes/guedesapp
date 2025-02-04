@@ -31,7 +31,7 @@ ENV MONGODB_DB=${MONGODB_DB}
 ARG MONGODB_URL
 ENV MONGODB_URL=${MONGODB_URL}
 
-RUN echo "${MONGODB_DB}, ${MONGODB_URL}, 123"
+COPY .env.example .env
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
