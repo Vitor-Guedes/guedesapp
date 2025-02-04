@@ -1,6 +1,22 @@
 # Use the official PHP image with Apache as the base image
 FROM php:8.3-apache
 
+# Install necessary libraries
+RUN apt-get update -y && apt-get install -y \
+    git \ 
+    libssl-dev \
+    libonig-dev \
+    libzip-dev
+
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
+RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
+
+# Install PHP extensions
+RUN docker-php-ext-install \
+    mbstring \
+    zip
+
 # Configure PHP for Cloud Run.
 # Precompile PHP code with opcache.
 RUN docker-php-ext-install -j "$(nproc)" opcache
@@ -35,19 +51,14 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 # Expose the default HTTP port (port 80)
 EXPOSE ${PORT}
 
-# Enable the rewrite module (assuming your PHP application uses URL rewriting)
-RUN a2enmod rewrite
+# Switch back to the non-privileged user to run the application
+USER www-data
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Switch back to the non-privileged user to run the application
-USER www-data
-
-# Install any necessary PHP extensions or dependencies here (if needed)
-# For example, if you use database connections, you might need to install relevant extensions.
-
 # Start the Apache web server when the container starts
 RUN composer install -d /var/www/html --no-dev --no-interaction --optimize-autoloader
 
+# Start the Apache web server when the container starts
 CMD ["apache2-foreground"]
