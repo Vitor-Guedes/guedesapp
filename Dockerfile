@@ -42,9 +42,8 @@ RUN set -ex; \
 
 # Copy in custom code from the host machine.
 WORKDIR /var/www/html
-COPY . ./
 
-RUN composer install
+COPY . ./
 
 RUN a2enmod rewrite
 
@@ -61,3 +60,12 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 COPY /infra/apache/apache-config.conf /etc/apache2/sites-available/000-default.conf
 
 EXPOSE ${PORT}
+
+COPY ./infra/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Switch back to the non-privileged user to run the application
+USER www-data
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
