@@ -1,9 +1,7 @@
 <?php
 
-header('Content-type', 'application/json');
+use App\App;
 
-echo json_encode([
-    'status' => true,
-    'name' => 'Vitor Guedes',
-    'email' => 'vtrf2.0@gmail.com'
-]);
+include dirname(__DIR__) . '/vendor/autoload.php';
+
+(new App())->run();
