@@ -52,13 +52,15 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 EXPOSE ${PORT}
 
 # Switch back to the non-privileged user to run the application
-USER www-data
+# USER root
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Start the Apache web server when the container starts
 RUN composer install -d /var/www/html --no-dev --no-interaction --optimize-autoloader
+
+RUN chmod -R 777 var 
 
 # Start the Apache web server when the container starts
 CMD ["apache2-foreground"]
