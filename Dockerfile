@@ -19,9 +19,6 @@ RUN docker-php-ext-install \
     mbstring \
     zip
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
 # Configure PHP for Cloud Run.
 # Precompile PHP code with opcache.
 RUN docker-php-ext-install -j "$(nproc)" opcache
@@ -61,11 +58,14 @@ COPY /infra/apache/apache-config.conf /etc/apache2/sites-available/000-default.c
 
 EXPOSE ${PORT}
 
-COPY ./infra/entrypoint.sh /usr/local/bin/entrypoint.sh
-
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
 # Switch back to the non-privileged user to run the application
 USER www-data
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Start the Apache web server when the container starts
+RUN composer install -d /var/www/html --no-dev --no-interaction --optimize-autoloader
+
+# Start the Apache web server when the container starts
+CMD ["apache2-foreground"]
