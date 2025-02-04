@@ -29,7 +29,7 @@ RUN set -ex; \
     echo "upload_max_filesize = 32M"; \
     echo "post_max_size = 32M"; \
     echo "; Configure Opcache for Containers"; \
-    echo "opcache.enable = On"; \
+    echo "opcache.enable = Off"; \
     echo "opcache.validate_timestamps = On"; \
     echo "; Configure Opcache Memory (Application-specific)"; \
     echo "opcache.memory_consumption = 32"; \
@@ -52,13 +52,13 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 EXPOSE ${PORT}
 
 # Switch back to the non-privileged user to run the application
-# USER root
+USER root
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Start the Apache web server when the container starts
-RUN composer install -d /var/www/html --no-dev --no-interaction --optimize-autoloader
+RUN composer update -d /var/www/html --no-dev --no-interaction --optimize-autoloader && composer dumpautoload -o
 
 RUN chmod -R 777 var 
 
