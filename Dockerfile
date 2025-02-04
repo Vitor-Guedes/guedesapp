@@ -10,7 +10,7 @@ RUN apt-get update -y && apt-get install -y \
 
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
+# RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
 
 # Install PHP extensions
 RUN docker-php-ext-install \
@@ -52,15 +52,22 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/a
 EXPOSE ${PORT}
 
 # Switch back to the non-privileged user to run the application
-USER root
+# USER root
+
+RUN git config --global --add safe.directory /var/www/html
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Start the Apache web server when the container starts
-RUN composer update -d /var/www/html --no-dev --no-interaction --optimize-autoloader && composer dumpautoload -o
+COPY .env.example .env
 
-RUN chmod -R 777 var 
+# Start the Apache web server when the container starts
+# RUN composer update -d /var/www/html --no-dev --no-interaction --optimize-autoloader && composer dumpautoload -o
+
+# RUN chmod -R 777 var 
+RUN chmod +x ./start.sh
 
 # Start the Apache web server when the container starts
 CMD ["apache2-foreground"]
+
+ENTRYPOINT ["./start.sh"]
