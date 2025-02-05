@@ -15,6 +15,25 @@ RUN docker-php-ext-install \
 
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 
+# Configure PHP for Cloud Run.
+# Precompile PHP code with opcache.
+RUN docker-php-ext-install -j "$(nproc)" opcache
+RUN set -ex; \
+  { \
+    echo "; Cloud Run enforces memory & timeouts"; \
+    echo "memory_limit = -1"; \
+    echo "max_execution_time = 0"; \
+    echo "; File upload at Cloud Run network limit"; \
+    echo "upload_max_filesize = 32M"; \
+    echo "post_max_size = 32M"; \
+    echo "; Configure Opcache for Containers"; \
+    echo "opcache.enable = On"; \
+    echo "opcache.validate_timestamps = On"; \
+    echo "; Configure Opcache Memory (Application-specific)"; \
+    echo "opcache.memory_consumption = 32"; \
+  } > "$PHP_INI_DIR/conf.d/cloud-run.ini"
+
+
 WORKDIR /var/www/html
 
 COPY . ./
