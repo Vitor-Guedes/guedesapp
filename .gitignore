@@ -10,3 +10,5 @@
 ###< symfony/framework-bundle ###
 symfony.lock
 .env
+composer.lock
+infra/guedesappdb

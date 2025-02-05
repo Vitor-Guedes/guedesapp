@@ -93,7 +93,7 @@ Modules Values - São os valores dos módulos
 		- [ ] modules
 		- [ ] modules_values
 	- [ ] Testes
-		-[ ] UserTest - feature/unit
+		- [ ] UserTest - feature/unit
 		- [ ] RoleTest - feature/unit
 		- [ ] ActionTest - feature/unit
 		- [ ] PortfolioTest - feature/unit

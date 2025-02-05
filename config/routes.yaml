@@ -6,3 +6,6 @@ controllers:
 kernel:
     resource: App\Kernel
     type: attribute
+
+packages_user_bundle.routes:
+    resource: '@PackagesUserBundle/config/routes.yaml'

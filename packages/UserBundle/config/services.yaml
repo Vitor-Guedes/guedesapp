@@ -1,0 +1,10 @@
+parameters:
+
+
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Packages\UserBundle\Controller\UserController: ~

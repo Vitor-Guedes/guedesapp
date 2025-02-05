@@ -11,7 +11,7 @@ class IndexController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(PortfolioService $service): Response
-    {
+    {   
         return new Response($service->loadBasicData());
     }
 }

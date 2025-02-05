@@ -1,0 +1,4 @@
+packages_user_bundle.routes:
+    resource: '../src/Controller/'
+    type:     attribute
+    prefix:   /api/users
