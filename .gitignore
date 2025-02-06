@@ -12,3 +12,9 @@ symfony.lock
 .env
 composer.lock
 infra/guedesappdb
+node_modules
+###> pentatrion/vite-bundle ###
+/node_modules/
+/public/build/
+###< pentatrion/vite-bundle ###
+package-lock.json

@@ -2,15 +2,14 @@
 
 namespace Packages\UserBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UserController extends AbstractController
 {
-    #[Route('/', name: 'api.user.index')]
+    #[Route('/api/users', name: 'api.user.index')]
     public function index()
     {
-        return new Response("user.index");
+        return $this->render('home');
     }
 }

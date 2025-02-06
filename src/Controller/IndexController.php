@@ -2,16 +2,15 @@
 
 namespace App\Controller;
 
-use App\Services\PortfolioService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IndexController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(PortfolioService $service): Response
+    public function index(): Response
     {   
-        return new Response($service->loadBasicData());
+        return $this->render('home.html.twig');
     }
 }

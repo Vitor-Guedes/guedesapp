@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Permite acesso direto aos assets (CSS, JS, imagens, fontes)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Redireciona todas as outras requisições para index.php (Symfony)
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>

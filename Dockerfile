@@ -60,4 +60,16 @@ RUN composer install --no-dev --optimize-autoloader -d /var/www/html
 
 RUN chmod -R 777 /var/www/html/var
 
+# @todo configurar instalação do node
+# Adicionar repositório oficial do Node.js 22.x
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+
+# Instalar Node.js v22.12.0 e NPM v11.0.0
+RUN apt-get update && apt-get install -y nodejs=22.12.0-1nodesource1
+
+# Verificar versões instaladas
+RUN node -v && npm -v
+
+RUN npm i && npm run build
+
 EXPOSE ${PORT}

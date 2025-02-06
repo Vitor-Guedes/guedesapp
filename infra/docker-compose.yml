@@ -17,6 +17,7 @@ services:
             - ../:/var/www/html
         extra_hosts:
             - "host.docker.internal:host-gateway"
+            - "dev.backend.com:172.32.122.22"
         networks:
             - guedesapp
 

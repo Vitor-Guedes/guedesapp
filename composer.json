@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "doctrine/mongodb-odm-bundle": "^5.2",
         "packages/user-bundle": "^1.0",
+        "pentatrion/vite-bundle": "^7.1",
         "symfony/console": "7.2.*",
         "symfony/dotenv": "7.2.*",
         "symfony/flex": "^2.4.7",

@@ -13,3 +13,7 @@ infra/guedesappdb
 
 # Exclude git history and configuration.
 .gitignore
+
+./node_modules
+./public/build/
+./package-lock.json
