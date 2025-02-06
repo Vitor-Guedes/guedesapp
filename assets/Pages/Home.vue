@@ -6,7 +6,22 @@
             </div>
         </template>
         <template #content>
-            # Pagina em construção. Por favor aguarde
+            <Tab :tabs>
+
+                <template v-for="tab in tabs" #[tab.name]>
+                
+                    <Portfolio v-bind="{...portfolios[tab.name]}" />
+
+                </template>
+
+            </Tab>
+            <p>
+                Obs: 
+                Aplicação esta em desenvolvimento. <br>
+                Os dados estão mocados apenas para demonstar o como o projeto pode ficar no final (MVP) do desenvolvimento. <br>
+                Objetovo é deixar totalmente dinâmico e configuravel, onde os usuários visitantes poderão criar de forma limitada um ou mais Curriculos. <br>
+                E onde o administrador pode incluir e altera os dados persistidos na base de dados, via autenticação.
+            </p>
         </template>
     </Layout>
 </template>
@@ -14,16 +29,77 @@
 <script>
 import Layout from '../Layout.vue';
 
-export default {
-    components: {
-        Layout
-    },
+import Portfolio from '../components/Portfolio.vue';
+import Tab from '../components/Tab.vue';
 
+export default {
     name: 'Home',
+
+    components: {
+        Layout,
+        Portfolio,
+        Tab
+    },
 
     data() {
         return {
-            title: "Vitor Guedes Gomes"
+            title: "Portfolio App",
+
+            portfolios: {
+                'portfolio_backend': {
+                    name: "Vitor Guedes Gomes",
+                    responsability: "Desenvolvedor Backend",
+                    apresentation: "Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.",
+
+                    modules: [
+                        {
+                            code: 'professional_exp',
+                            label: 'Experiência Profissional',
+                            fields: {
+                                empresa: 'Cazco Digital',
+                                carbo: 'Desenvolvedor Backend'
+                            }
+                        },
+                        {
+                            code: 'academic_background',
+                            label: 'Formação Academica',
+                            fields: {
+                                institution: 'Fatec - Jundiai',
+                                course: 'Análise e desenvolvimento de Software'
+                            }
+                        },
+                        {
+                            code: 'technical_skills',
+                            label: 'Habilidades Técnicas',
+                            fields: {
+                                'Linguagens e Frameworks': 'PHP, JavaScript, Laravel, PHP Slim, Phalcon, Magento 1.'
+                            }
+                        }
+                    ],
+                },
+
+                'portfolio_fullstack': {
+                    name: "Vitor Guedes Gomes",
+                    responsability: "Desenvolvedor Fullstack",
+                    apresentation: "Outro Lorem",
+
+                    modules: [
+                        {
+                            code: 'professional_exp',
+                            label: 'Experiência Profissional',
+                            fields: {
+                                empresa: 'Cazco Digital',
+                                carbo: 'Desenvolvedor Backend'
+                            }
+                        }
+                    ]
+                }
+            },
+
+            tabs: [
+                { name: 'portfolio_backend', label: 'Portfolio Backend'},
+                { name: 'portfolio_fullstack', label: 'Portfolio FullStack' }
+            ]
         }
     }
 }

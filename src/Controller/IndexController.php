@@ -13,4 +13,12 @@ class IndexController extends AbstractController
     {   
         return $this->render('home.html.twig');
     }
+
+    public function show(\Throwable $exception)
+    {   
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+            return new Response('404', 404);
+        }
+        
+    }
 }

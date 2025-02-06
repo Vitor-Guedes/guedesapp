@@ -9,3 +9,9 @@
     # Redireciona todas as outras requisições para index.php (Symfony)
     RewriteRule ^ index.php [QSA,L]
 </IfModule>
+
+<IfModule ratelimit_module>
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 100
+    SetEnv rate-initial-burst 200
+</IfModule>
