@@ -1,9 +1,9 @@
 <template>
     <slot name="header">
-        <div id="portfolio_own_name">
+        <div id="portfolio_own_name" class="title">
             {{ name }}
         </div>
-        <div id="portfolio_own_responsability">
+        <div id="portfolio_own_responsability" class="sub-title">
             {{ responsability }}
         </div>
     </slot>
@@ -20,7 +20,7 @@
         <div id="portfolio_own_modules">
 
             <Module v-for="section in modules" v-bind="{...section}" />
-            
+
         </div>
     </slot>
 </template>
@@ -45,3 +45,21 @@
     }
 
 </script>
+
+<style setup>
+
+.title {
+    font-size: 1.75rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.sub-title {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-style: italic;
+    color: rgba(120, 120, 120, 1);
+}
+
+</style>

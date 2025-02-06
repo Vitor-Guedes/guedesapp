@@ -1,11 +1,11 @@
 <template>
     <slot name="head">
-        <div :id="'portfolio_modules_' + code">
+        <div :id="'portfolio_modules_' + code" class="title">
             <p>{{ label }}</p>
         </div>
     </slot>
 
-    <div>
+    <div class="list">
         <ul>
             <li v-for="(value, key) in fields">
                 <span>

@@ -6,29 +6,30 @@
             </div>
         </template>
         <template #content>
-            <Tab :tabs>
+            <div id="main" class="container">
+                <Tab :tabs>
 
-                <template v-for="tab in tabs" #[tab.name]>
-                
-                    <Portfolio v-bind="{...portfolios[tab.name]}" />
+                    <template v-for="tab in tabs" #[tab.name]>
 
-                </template>
+                        <Portfolio v-bind="{...portfolios[tab.name]}" />
 
-            </Tab>
-            <p>
-                Obs: 
-                Aplicação esta em desenvolvimento. <br>
-                Os dados estão mocados apenas para demonstar o como o projeto pode ficar no final (MVP) do desenvolvimento. <br>
-                Objetovo é deixar totalmente dinâmico e configuravel, onde os usuários visitantes poderão criar de forma limitada um ou mais Curriculos. <br>
-                E onde o administrador pode incluir e altera os dados persistidos na base de dados, via autenticação.
-            </p>
+                    </template>
+
+                </Tab>
+                <p class="obs">
+                    Obs: 
+                    Aplicação esta em desenvolvimento. <br>
+                    Os dados estão mocados apenas para demonstar o como o projeto pode ficar no final (MVP) do desenvolvimento. <br>
+                    Objetovo é deixar totalmente dinâmico e configuravel, onde os usuários visitantes poderão criar de forma limitada um ou mais Curriculos. <br>
+                    E onde o administrador pode incluir e altera os dados persistidos na base de dados, via autenticação.
+                </p>
+            </div>
         </template>
     </Layout>
 </template>
 
 <script>
 import Layout from '../Layout.vue';
-
 import Portfolio from '../components/Portfolio.vue';
 import Tab from '../components/Tab.vue';
 
@@ -104,3 +105,27 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    width: 100%;
+    min-width: 400px;
+    padding: 5px 5px;
+    margin: 20px 0px;
+}
+
+.obs {
+    font-size: 0.80rem;
+    font-style: italic;
+    margin-top: 30px;
+    text-align: center;
+}
+
+</style>

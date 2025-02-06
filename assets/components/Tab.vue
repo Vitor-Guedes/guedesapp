@@ -42,8 +42,9 @@
     border-radius: 5px;
     padding: 10px;
     width: 100%;
-    max-width: 500px;
+    max-width: 100%;
     margin-bottom: 10px;
+    box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
 }
 
 .tab-buttons {
@@ -52,10 +53,11 @@
 }
 
 button {
-    padding: 10px;
+    padding: 10px 15px;
     border: none;
     background: #eee;
     cursor: pointer;
+    font-size: 2.25rem;
 }
 
 button.active {
@@ -69,4 +71,17 @@ button.active {
     padding: 10px;
     border-top: 2px solid rgba(131,111,255, 1);
 }
+
+@media screen and (min-width: 420px) {
+    button {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (min-width: 660px) {
+    button {
+        font-size: 1rem;
+    }
+}
+
 </style>
